@@ -399,8 +399,20 @@ describe('API Routes', () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(scaredStiff);
-    
+
     scaredStiff = response.body;
+  });
+
+  it('PUT updated resource to /api/machines/:id', async () => {
+    scaredStiff.funRating = 8.4;
+    scaredStiff.isFavorite = true;
+
+    const response = await request
+      .put(`/api/machines/${scaredStiff.id}`)
+      .send(scaredStiff);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(scaredStiff);
   });
 
 });
