@@ -7,8 +7,12 @@ const request = supertest(app);
 
 describe('API Routes', () => {
 
+  // beforeAll(() => {
+  //   execSync('npm run setup-db');
+  // });
+
   beforeAll(() => {
-    execSync('npm run setup-db');
+    execSync('npm run recreate-tables');
   });
 
   afterAll(async () => {
@@ -321,7 +325,7 @@ describe('API Routes', () => {
   // If a GET request is made to /api/cats, does:
   // 1) the server respond with status of 200
   // 2) the body match the expected API data?
-  it('GET /api/machines', async () => {
+  it.skip('GET /api/machines', async () => {
     // act - make the request
     const response = await request.get('/api/machines');
 
@@ -336,9 +340,67 @@ describe('API Routes', () => {
   // If a GET request is made to /api/cats/:id, does:
   // 1) the server respond with status of 200
   // 2) the body match the expected API data for the cat with that id?
-  test('GET /api/machines/:id', async () => {
+  it.skip('GET /api/machines/:id', async () => {
     const response = await request.get('/api/machines/2');
     expect(response.status).toBe(200);
     expect(response.body).toEqual(expectedMachines[1]);
   }); 
+
+  let scaredStiff = {
+    id: expect.any(Number),
+    title: 'Scared Stiff',
+    manufacturer: 'Bally',
+    dateOfManufacture: 1996,
+    unitsProduced: 4028,
+    abbreviation: 'SS',
+    mpu: 'WPC-95',
+    type: 'Solid State Electronic',
+    designer: 'Dennis Nordman, Mark Weyna',
+    image: 'https://www.ipdb.org/images/3915/Backglass.jpg',
+    manual: 'https://www.ipdb.org/files/3915/Bally_1996_Scared_Stiff_Manual.pdf',
+    funRating: 8.3,
+    isFavorite: false
+  };
+
+  let indianaJones = {
+    id: expect.any(Number),
+    title: 'Indiana Jones: The Pinball Adventure',
+    manufacturer: 'Williams',
+    dateOfManufacture: 1993,
+    unitsProduced: 12716,
+    abbreviation: 'IJ',
+    mpu: 'WPC (DCS)',
+    type: 'Solid State Electronic',
+    designer: 'Mark Ritchie, Brian Eddy, Doug Watson',
+    image: 'https://www.ipdb.org/images/1267/image-2.jpg',
+    manual: 'https://www.ipdb.org/files/1267/Williams_1993_Indiana_Jones_The_Pinball_Adventure_English_Manual.pdf',
+    funRating: 8.3,
+    isFavorite: false
+  };
+
+  let theAddamsFamily = {
+    id: expect.any(Number),
+    title: 'The Addams Family',
+    manufacturer: 'Bally',
+    dateOfManufacture: 1992,
+    unitsProduced: 20270,
+    abbreviation: 'TAF',
+    mpu: 'WPC (Fliptronics 1)',
+    type: 'Solid State Electronic',
+    designer: 'Pat Lawlor',
+    image: 'https://www.ipdb.org/images/20/image-24.jpg',
+    manual: 'https://www.ipdb.org/files/20/Bally_1992_The_Addams_Family_Manual.pdf',
+    funRating: 8.2,
+    isFavorite: false
+  };
+
+  it('POST a resource', async () => {
+    const response = await request.post('/api/machines').send(scaredStiff);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(scaredStiff);
+    
+    scaredStiff = response.body;
+  });
+
 });
