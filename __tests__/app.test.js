@@ -415,4 +415,26 @@ describe('API Routes', () => {
     expect(response.body).toEqual(scaredStiff);
   });
 
+  it('GET list of machines from /api/machines', async () => {
+    const req1 = await request
+      .post('/api/machines')
+      .send(indianaJones);
+    indianaJones = req1.body;
+    const req2 = await request
+      .post('/api/machines')
+      .send(theAddamsFamily);
+    theAddamsFamily = req2.body;
+
+    const response = await request.get('/api/machines');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(expect.arrayContaining([scaredStiff, indianaJones, theAddamsFamily]));
+  });
+
+  it('GET theAddamsFamily from /api/machines/:id', async () => {
+    const response = await request.get(`/api/machines/${theAddamsFamily.id}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(theAddamsFamily);
+  });
+
 });
