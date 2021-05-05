@@ -10,14 +10,20 @@ async function run() {
 
     // run a query to create tables
     await client.query(`          
-      CREATE TABLE cats (
+      CREATE TABLE machines (
         id SERIAL PRIMARY KEY NOT NULL,
-        name VARCHAR(512) NOT NULL,
+        title VARCHAR(512) NOT NULL,
+        manufacturer VARCHAR(512) NOT NULL,
+        date_of_manufacture INTEGER NOT NULL,
+        units_produced INTEGER NOT NULL,
+        abbreviation VARCHAR(512),
+        mpu VARCHAR(512),
         type VARCHAR(512) NOT NULL,
-        url VARCHAR(1024) NOT NULL,
-        year INTEGER NOT NULL,
-        lives INTEGER NOT NULL,
-        is_sidekick BOOLEAN DEFAULT FALSE
+        designer VARCHAR(512) NOT NULL,
+        image VARCHAR(512) NOT NULL,
+        manual VARCHAR(512),
+        fun_rating FLOAT NOT NULL,
+        is_favorite BOOLEAN DEFAULT FALSE
       );
     `);
 
