@@ -106,11 +106,11 @@ describe('API Routes', () => {
     expect(response.body).toEqual(expect.arrayContaining([scaredStiff, indianaJones, theAddamsFamily]));
   });
 
-  it('GET theAddamsFamily from /api/machines/:id', async () => {
-    const response = await request.get(`/api/machines/${theAddamsFamily.id}`);
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(theAddamsFamily);
-  });
+  // it('GET theAddamsFamily from /api/machines/:id', async () => {
+  //   const response = await request.get(`/api/machines/${theAddamsFamily.id}`);
+  //   expect(response.status).toBe(200);
+  //   expect(response.body).toEqual(theAddamsFamily);
+  // });
 
   // it('GET by title from /api/machines/titles/', async () => {
   //   const response = await request.get(`/api/machines/titles/${theAddamsFamily.title}`);
