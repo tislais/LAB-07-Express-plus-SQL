@@ -133,7 +133,7 @@ describe('API Routes', () => {
     expect(response.body).toEqual({ ...theAddamsFamily, userName: user.name });
   });
 
-  it.skip('GET by title from /api/machines/titles/', async () => {
+  it('GET by title from /api/machines/titles/', async () => {
     const response = await request.get(`/api/machines/titles/${theAddamsFamily.title}`);
     expect(response.status).toBe(200);
     expect(response.body).toEqual(theAddamsFamily);
