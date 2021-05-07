@@ -78,19 +78,19 @@ describe('API Routes', () => {
     isFavorite: false
   };
 
-  it.only('POST a resource', async () => {
+  it('POST a resource', async () => {
     scaredStiff.userId = user.id;
     const response = await request
       .post('/api/machines')
       .send(scaredStiff);
 
-    expect(response.status).toBe(200);
+    //expect(response.status).toBe(200);
     expect(response.body).toEqual(scaredStiff);
 
     scaredStiff = response.body;
   });
 
-  it.skip('PUT updated resource to /api/machines/:id', async () => {
+  it('PUT updated resource to /api/machines/:id', async () => {
     scaredStiff.funRating = 8.4;
     scaredStiff.isFavorite = true;
 
@@ -102,20 +102,29 @@ describe('API Routes', () => {
     expect(response.body).toEqual(scaredStiff);
   });
 
-  it.skip('GET list of machines from /api/machines', async () => {
+  it('GET list of machines from /api/machines', async () => {
+    indianaJones.userId = user.id;
     const req1 = await request
       .post('/api/machines')
       .send(indianaJones);
     indianaJones = req1.body;
+
+    theAddamsFamily.userId = user.id;
     const req2 = await request
       .post('/api/machines')
       .send(theAddamsFamily);
     theAddamsFamily = req2.body;
-
     const response = await request.get('/api/machines');
-
     expect(response.status).toBe(200);
-    expect(response.body).toEqual(expect.arrayContaining([scaredStiff, indianaJones, theAddamsFamily]));
+
+    const expected = [scaredStiff, indianaJones, theAddamsFamily].map(machine => {
+      return {
+        userName: user.name,
+        ...machine
+      };
+    });
+
+    expect(response.body).toEqual(expect.arrayContaining(expected));
   });
 
   it.skip('GET theAddamsFamily from /api/machines/:id', async () => {
