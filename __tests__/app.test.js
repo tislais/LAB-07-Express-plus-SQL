@@ -139,7 +139,7 @@ describe('API Routes', () => {
     expect(response.body).toEqual(theAddamsFamily);
   });
 
-  it.skip('DELETE theAddamsFamily from /api/machines/:id', async () => {
+  it('DELETE theAddamsFamily from /api/machines/:id', async () => {
     const response = await request.delete(`/api/machines/${theAddamsFamily.id}`);
     expect(response.status).toBe(200);
     expect(response.body).toEqual(theAddamsFamily);
