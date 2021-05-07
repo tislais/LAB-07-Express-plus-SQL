@@ -112,20 +112,20 @@ describe('API Routes', () => {
   //   expect(response.body).toEqual(theAddamsFamily);
   // });
 
-  // it('GET by title from /api/machines/titles/', async () => {
-  //   const response = await request.get(`/api/machines/titles/${theAddamsFamily.title}`);
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toEqual(theAddamsFamily);
-  // });
+  it('GET by title from /api/machines/titles/', async () => {
+    const response = await request.get(`/api/machines/titles/${theAddamsFamily.title}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(theAddamsFamily);
+  });
 
-  // it('DELETE theAddamsFamily from /api/machines/:id', async () => {
-  //   const response = await request.delete(`/api/machines/${theAddamsFamily.id}`);
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toEqual(theAddamsFamily);
+  it('DELETE theAddamsFamily from /api/machines/:id', async () => {
+    const response = await request.delete(`/api/machines/${theAddamsFamily.id}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(theAddamsFamily);
 
-  //   const getResponse = await request.get('/api/machines');
-  //   expect(getResponse.status).toBe(200);
-  //   expect(getResponse.body.find(machine => machine.id === theAddamsFamily.id)).toBeUndefined();
-  // });
+    const getResponse = await request.get('/api/machines');
+    expect(getResponse.status).toBe(200);
+    expect(getResponse.body.find(machine => machine.id === theAddamsFamily.id)).toBeUndefined();
+  });
 
 });
