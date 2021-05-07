@@ -19,6 +19,8 @@ describe('API Routes', () => {
     return client.end();
   });
 
+  
+
   let scaredStiff = {
     id: expect.any(Number),
     title: 'Scared Stiff',
@@ -120,6 +122,10 @@ describe('API Routes', () => {
     const response = await request.delete(`/api/machines/${theAddamsFamily.id}`);
     expect(response.status).toBe(200);
     expect(response.body).toEqual(theAddamsFamily);
+
+    const getResponse = await request.get('/api/machines');
+    expect(getResponse.status).toBe(200);
+    expect(getResponse.body.find(machine => machine.id === theAddamsFamily.id)).toBeUndefined();
   });
 
 });
