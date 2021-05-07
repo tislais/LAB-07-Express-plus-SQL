@@ -9,7 +9,14 @@ async function run() {
   try {
 
     // run a query to create tables
-    await client.query(`          
+    await client.query(`    
+      CREATE TABLE users (
+        id SERIAL PRIMARY KEY NOT NULL,
+        name VARCHAR(512) NOT NULL,
+        email VARCHAR(512) NOT NULL,
+        password_hash VARCHAR(512) NOT NULL
+      );
+    
       CREATE TABLE machines (
         id SERIAL PRIMARY KEY NOT NULL,
         title VARCHAR(512) NOT NULL,
@@ -23,7 +30,8 @@ async function run() {
         image VARCHAR(512) NOT NULL,
         manual VARCHAR(512),
         fun_rating FLOAT NOT NULL,
-        is_favorite BOOLEAN DEFAULT FALSE
+        is_favorite BOOLEAN DEFAULT FALSE,
+        user_id INTEGER NOT NULL REFERENCES users(id)
       );
     `);
 
