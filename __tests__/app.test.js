@@ -7,12 +7,21 @@ const request = supertest(app);
 
 describe('API Routes', () => {
 
-  // beforeAll(() => {
-  //   execSync('npm run setup-db');
-  // });
+  let user;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     execSync('npm run recreate-tables');
+
+    const response = await request
+      .post('/api/auth/signup')
+      .send({
+        name: 'The user',
+        email: 'test@example.com',
+        passwordHash: 'password'
+      });
+
+    expect(response.status).toBe(200);
+    user = response.body;
   });
 
   afterAll(async () => {
@@ -70,9 +79,12 @@ describe('API Routes', () => {
   };
 
   it('POST a resource', async () => {
-    const response = await request.post('/api/machines').send(scaredStiff);
+    scaredStiff.userId = user.id;
+    const response = await request
+      .post('/api/machines')
+      .send(scaredStiff);
 
-    expect(response.status).toBe(200);
+    //expect(response.status).toBe(200);
     expect(response.body).toEqual(scaredStiff);
 
     scaredStiff = response.body;
@@ -91,25 +103,34 @@ describe('API Routes', () => {
   });
 
   it('GET list of machines from /api/machines', async () => {
+    indianaJones.userId = user.id;
     const req1 = await request
       .post('/api/machines')
       .send(indianaJones);
     indianaJones = req1.body;
+
+    theAddamsFamily.userId = user.id;
     const req2 = await request
       .post('/api/machines')
       .send(theAddamsFamily);
     theAddamsFamily = req2.body;
-
     const response = await request.get('/api/machines');
-
     expect(response.status).toBe(200);
-    expect(response.body).toEqual(expect.arrayContaining([scaredStiff, indianaJones, theAddamsFamily]));
+
+    const expected = [scaredStiff, indianaJones, theAddamsFamily].map(machine => {
+      return {
+        userName: user.name,
+        ...machine
+      };
+    });
+
+    expect(response.body).toEqual(expect.arrayContaining(expected));
   });
 
   it('GET theAddamsFamily from /api/machines/:id', async () => {
     const response = await request.get(`/api/machines/${theAddamsFamily.id}`);
     expect(response.status).toBe(200);
-    expect(response.body).toEqual(theAddamsFamily);
+    expect(response.body).toEqual({ ...theAddamsFamily, userName: user.name });
   });
 
   it('GET by title from /api/machines/titles/', async () => {
